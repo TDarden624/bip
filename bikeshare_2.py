@@ -51,7 +51,7 @@ def get_filters():
                 return("\nPlease enter a valid month\n")
                 continue
         else:
-                break
+            break
     while True:
         input_day = input('\nPlease select a day to filter by or enter all for all options').lower()
         print("\nPulling up {day.title()}")
