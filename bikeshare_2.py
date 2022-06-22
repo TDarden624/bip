@@ -7,11 +7,11 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'washington': 'washington.csv' }
 
 def get_filters():
-    global input_month
-    global input_day
+    global month
+    global day
     
-    month = ['January', 'Febuary', 'March', 'April', 'May', 'June']
-    day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'all']
+    months = ['January','Febuary','March','April','May','June']
+    days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','all']
     """
     Asks user to specify a city, month, and day to analyze.
 
@@ -22,47 +22,29 @@ def get_filters():
     """
     print('Hello! Let\'s explore some US bikeshare data!')
     
-    city =['Chicago', 'New York', 'Washington']
+    cities = ['Chicago','New York','Washington']
     while True:
-        input_city = input('\nWhich city would you like to analyze?:').lower()
-        if input_city == 'Chicago':
-                print("\nAlright, let's check out chicago.lower()!\n")
-                break
-                return 'chicago.csv'
-        elif input_city == 'New York':
-                print("\nAlright, let's check out New York.lower()!\n")
-                break
-                return 'new_york_city.csv'
-        elif input_city == 'Washington':
-                print("\nAlright, let's check out Washington.lower()!\n")
-                break
-                return 'washington.csv'
-                continue
-        if input_city not in city:
-           return("\nPlease enter: Chicago, New York or Washington\n")
-           continue
-        else:
-            break
-              
-    while True:
-        input_month = input('\nPlease select a month to filter by or enter none for no filter').lower()
-        print("\nYou've chose {month.title()} as your month.")
-        if input_month not in month:
-                return("\nPlease enter a valid month\n")
-                continue
-        else:
-            break
-    while True:
-        input_day = input('\nPlease select a day to filter by or enter all for all options').lower()
-        print("\nPulling up {day.title()}")
-        if input_day not in day:
-                return("\nPlease enter a valid day\n")
-                continue
-        else:
+        city = input('\nWhich city would you like to analyze?:chicago, new york, washington\n').lower()
+        if city not in cities:
+            print("\nPlease enter: Chicago, New York or Washington!")
             break
         
+              
+    while True:
+        month = input('\nPlease select a month to filter by or enter none for no filter\n')
+        if month not in months:
+                print("\nPlease enter a valid month\n")
+                break
+       
+    while True:
+        day = input('\nPlease select a day to filter by or enter all for all options\n')
+        if day not in days:
+                print("\nPlease enter a valid day\n")
+                break
+    
+        
     print('-'*40)
-    return input_city, input_month, input_day
+    return city, month, day
 
 
 def load_data(city, month, day):
@@ -88,6 +70,7 @@ def time_stats(df):
     df['month'] = df['Start Time'].dt.month
     df['day_of_week'] = df['Start Time'].dt.weekday_name
     
+    
     pop_month = df['month'].mode()[0]
     print('Most common month:', pop_month)
 
@@ -102,7 +85,7 @@ def time_stats(df):
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
-
+    
 
 def station_stats(df):
     """Displays statistics on the most popular stations and trip."""
@@ -184,7 +167,7 @@ def main():
         station_stats(df)
         trip_duration_stats(df)
         user_stats(df)
-        
+        print(df)
         
         
         restart = input('\nWould you like to restart? Enter yes or no.\n')
@@ -194,5 +177,3 @@ def main():
             
 if __name__ == "__main__":
 	main()
-
-       
