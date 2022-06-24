@@ -10,8 +10,8 @@ def get_filters():
     global month
     global day
     
-    months = ['January','Febuary','March','April','May','June']
-    days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','all']
+    months = ['january','febuary','march','april','may','june']
+    days = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday','all']
     """
     Asks user to specify a city, month, and day to analyze.
 
@@ -22,7 +22,7 @@ def get_filters():
     """
     print('Hello! Let\'s explore some US bikeshare data!')
     
-    cities = ['Chicago','New York','Washington']
+    cities = ['chicago','new york','washington']
     while True:
         city = input('\nWhich city would you like to analyze?:chicago, new york, washington\n').lower()
         if city not in cities:
