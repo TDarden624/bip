@@ -7,8 +7,6 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'washington': 'washington.csv' }
 
 def get_filters():
-    global month
-    global day
     
     months = ['january','febuary','march','april','may','june']
     days = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday','all']
@@ -27,22 +25,27 @@ def get_filters():
         city = input('\nWhich city would you like to analyze?:chicago, new york, washington\n').lower()
         if city not in cities:
             print("\nPlease enter: Chicago, New York or Washington!")
+            continue
+        else:
             break
             
-       
-        
-              
+                 
     while True:
         month = input('\nPlease select a month to filter by or enter none for no filter\n')
         if month not in months:
-                print("\nPlease enter a valid month\n") 
-                break
-       
+                print("\nPlease enter a valid month\n")
+                continue
+        else:
+            break
+
+                
     while True:
         day = input('\nPlease select a day to filter by or enter all for all options\n')
         if day not in days:
                 print("\nPlease enter a valid day\n") 
-                break
+                continue
+        else:
+            break
     
         
     print('-'*40)
@@ -70,9 +73,10 @@ def time_stats(df):
     start_time = time.time()
 
     df['Start Time'] = pd.to_datetime(df['Start Time'])
+    df['End Time'] = pd.to_datetime(df['End Time'])
     df['month'] = df['Start Time'].dt.month
     df['day_of_week'] = df['Start Time'].dt.weekday_name
-    df["Start hour"] = df["Start Time"].dt.hour
+    df['Start hour'] = df['Start Time'].dt.hour
     
     pop_month = df['month'].mode()[0]
     print('Most common month:', pop_month)
@@ -110,7 +114,7 @@ def station_stats(df):
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
-    print(df)
+    
 
 
 def trip_duration_stats(df):
@@ -123,20 +127,13 @@ def trip_duration_stats(df):
     # display total travel time
     total_duration = df['Trip Duration'].sum()
     print('total travel time for your trip:', total_duration)
-    minute, second = divmod(total_duration, 60)
-    hour, minute = divmod(minute, 60)
-    print("\nTotal trip duration is {} hours, {} minutes and {} seconds.")
+   
     # display mean travel time
     mean_duration = df['Trip Duration'].mean()
     print('Average travel time for your trip:', mean_duration)
-    minute, second = divmod(mean_duration, 60)
-    if min > 60:
-          hour, minute = divmod(minute, 60)
-          print("\nThe average trip is {} hours, {} minutes and {} seconds.")
-
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
-    print(df)
+    
 
 def user_stats(df):
     """Displays statistics on bikeshare users."""
@@ -145,14 +142,16 @@ def user_stats(df):
     start_time = time.time()
 
     # Display counts of user types
-    usertype = df['User Type'].value_counts()
-    print("The user types are:\n", user_counts)
+    user_types = df['User Type'].value_counts()
+    print("The user types are:\n", user_types)
 
+    #referencing a knowledge question helped me with the below: https://knowledge.udacity.com/questions/55524
     # Display counts of gender
-    if city == 'chicago.csv' or city == 'new_york_city.csv':
-          User_gender = df['Gender'].value_counts()
-          print("The types of user by 'Gender' are:\n", user_gender)
-          print(df)
+    if 'gender' in df.columns:
+        user_gender = df['Gender'].value_counts()
+        print("The types of user by 'Gender' are:\n", user_gender)
+    else:
+        print('Please reenter your input')
 
     # 
 def birth_year(df):
@@ -186,5 +185,3 @@ def main():
             
 if __name__ == "__main__":
 	main()
-    
- 
